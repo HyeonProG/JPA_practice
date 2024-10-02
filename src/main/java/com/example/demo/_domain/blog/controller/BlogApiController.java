@@ -1,18 +1,21 @@
 package com.example.demo._domain.blog.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo._domain.blog.dto.ArticleDTO;
 import com.example.demo._domain.blog.entity.Article;
 import com.example.demo._domain.blog.service.BlogService;
+import com.example.demo.common.ApiUtil;
+import com.example.demo.common.errors.Exception400;
+
+import java.util.List;
 
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 
 @RequiredArgsConstructor
 @RestController // @Controller + @ResponseBody
@@ -31,6 +34,16 @@ public class BlogApiController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedArticle);
     }
-    
+
+    @GetMapping("/api/article")
+    public ApiUtil<List<Article>> getAllArticles() {
+        List<Article> articles = blogService.findAll();
+        if (articles.isEmpty()) {
+            // return new ApiUtil<>(new Exception400("게시글이 없습니다."));
+            throw new Exception400("게시글이 없습니다.");
+        }
+
+        return new ApiUtil<>(articles);
+    }
 
 }

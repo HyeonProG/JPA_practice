@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 import com.example.demo._domain.blog.dto.ArticleDTO;
 import com.example.demo._domain.blog.entity.Article;
 import com.example.demo._domain.blog.repository.PostRepository;
+import com.example.demo.common.ApiUtil;
+import com.example.demo.common.errors.Exception400;
+
+import java.util.List;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +25,12 @@ public class BlogService {
     public Article save(ArticleDTO dto) {
         // 비즈니스 로직이 필요하다면 작성
         return postRepository.save(dto.toEntity());
+    }
+
+    // 전체 게시글 조회 기능
+    public List<Article> findAll() {
+        List<Article> articles = postRepository.findAll();
+        return articles;
     }
 
 }
