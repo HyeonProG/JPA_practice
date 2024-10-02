@@ -1,5 +1,7 @@
 package com.example.demo._domain.blog.entity;
 
+import com.example.demo.common.errors.Exception400;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,5 +34,20 @@ public class Article {
     
     @Column(name = "content", nullable = false) // not null
     private String content;
+
+    // 객체의 상태 값 수정
+    public void update(String title, String content) {
+        // 유효성 검사 반드시 진행해야 한다.
+        // 즉, 데이터가 엔티티에 저장되기 전에 반드시 검증
+        if (title == null || title.trim().isEmpty()) {
+            throw new Exception400("제목은 null 이거나 빈 문자열일 수 없습니다.");
+        }
+
+        if (content == null || content.trim().isEmpty()) {
+            throw new Exception400("내용은 null 이거나 빈 문자열일 수 없습니다.");
+        }
+        this.title = title;
+        this.content = content;
+    }
 
 }
