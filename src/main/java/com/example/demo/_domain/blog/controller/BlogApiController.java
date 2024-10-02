@@ -3,6 +3,7 @@ package com.example.demo._domain.blog.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,8 +36,10 @@ public class BlogApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedArticle);
     }
 
+    // URL 즉, 주소 설계 - http://localhost:8080/api/article
     @GetMapping("/api/article")
-    public ApiUtil<List<Article>> getAllArticles() {
+    public ApiUtil<?> getAllArticles() {
+    // public ApiUtil<List<Article>> getAllArticles() {
         List<Article> articles = blogService.findAll();
         if (articles.isEmpty()) {
             // return new ApiUtil<>(new Exception400("게시글이 없습니다."));
@@ -44,6 +47,15 @@ public class BlogApiController {
         }
 
         return new ApiUtil<>(articles);
+    }
+
+    // URL 즉, 주소 설계 - http://localhost:8080/api/article/1
+    @GetMapping("/api/article/{id}")
+    public ApiUtil<?> findArticle(@PathVariable(name = "id") Integer id) {
+        // 1. 유효성 검사 생략
+        Article article = blogService.findById(id);
+
+        return new ApiUtil<>(article);
     }
 
 }

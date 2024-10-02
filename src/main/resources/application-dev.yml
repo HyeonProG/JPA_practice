@@ -24,7 +24,7 @@ spring:
         #- classpath:db/data.sql  # 애플리케이션 초기화 시 실행할 데이터 삽입 SQL 파일의 경로 (data.sql)
   jpa:
     hibernate:
-      ddl-auto: create            # 애플리케이션이 시작될 때 데이터베이스 테이블을 자동으로 생성
+      ddl-auto: update            # 애플리케이션이 시작될 때 데이터베이스 테이블을 자동으로 생성
     show-sql: true                # Hibernate가 실행하는 SQL 쿼리를 콘솔에 출력
     properties:
       hibernate:

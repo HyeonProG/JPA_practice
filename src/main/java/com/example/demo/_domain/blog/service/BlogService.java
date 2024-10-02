@@ -33,4 +33,11 @@ public class BlogService {
         return articles;
     }
 
+    // 게시글 상세 보기 조회
+    public Article findById(Integer id) {
+        // Optional<T>는 Java 8 버전에서 도입된 클래스
+        // 값이 존재할 수도 있고 업을 수도 있는 상황을 명확하게 처리하기 위해 사용
+        return postRepository.findById(id).orElseThrow(() -> new Exception400("해당 게시글이 없습니다."));
+    }
+
 }
